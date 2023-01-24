@@ -2,7 +2,6 @@ package dose
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"io"
 	"log"
@@ -59,8 +58,9 @@ func Dose(w http.ResponseWriter, r *http.Request) {
 		WeightLiquidCoffee: doseResult.WeightLiquidCoffee,
 		BaseketSize:        doseResult.BaseketSize,
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	io.WriteString(w, fmt.Sprintf("Hello, %s!", finalResult))
+	json.NewEncoder(w).Encode(finalResult)
 }
 
 type dose struct {
